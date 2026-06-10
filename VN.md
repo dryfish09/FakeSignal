@@ -9,6 +9,8 @@
 
 > **"Fake trong tên, thật trong bản chất – cũng như ý chí sống sót của tôi sau khi debug cái này."**
 
+Tiếng Việt | [English](README.md)
+
 ## 📦 FakeSignal là gì?
 
 **FakeSignal** là một thư viện C++ cung cấp hàm `raise()` cho các **tín hiệu giả**… nhưng **thực sự crash chương trình của bạn** bằng các hành vi không xác định (undefined behavior) có thật.
