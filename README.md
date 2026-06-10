@@ -7,14 +7,14 @@
 [![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20Windows%20%7C%20macOS-lightgrey.svg)]()
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
+[Tiếng Việt](VN.md) | English
 > **"Fake in name, real in nature – just like my will to live after debugging this."**
 
 ## 📦 What is FakeSignal?
 
 **FakeSignal** is a C++ library that provides a `raise()` function for **fake signals**… that **really crash your program** using real undefined behavior.
 
-Yes, you read that right. 
-
+Yes, you read that right.  
 It's a library for developers who want to simulate signals *the hard way* — by actually segfaulting, dividing by zero, overflowing the stack, or leaking memory until the OOM killer shows up.
 
 ### Why?
@@ -30,9 +30,15 @@ Also: `std::raise(SIGSEGV)` is too boring. We prefer **real, hardware-verified c
 
 ## 🚀 Quick Start
 
+### 1. Include the header
+
 ```cpp
 #include "fakesignal.h"
+```
 
+### 2. Call raise() with your favorite fake signal
+
+```cpp
 int main() {
     fakesignal::raise("SIGSEGV");
     // You will never reach this line.
@@ -41,12 +47,15 @@ int main() {
 }
 ```
 
-Compile and run:
+### 3. Compile (remember to include fakesignal.cpp)
+
 ```bash
-g++ -std=c++17 -pthread main.cpp -o demo
+g++ -std=c++17 -pthread main.cpp fakesignal.cpp -o demo
 ./demo
 Segmentation fault (core dumped)  # ✅ Working as intended
 ```
+
+That's it. Your program now crashes on demand.
 
 ---
 
@@ -67,9 +76,10 @@ Segmentation fault (core dumped)  # ✅ Working as intended
 
 ---
 
-## 📖 Examples
+## 📖 Full Examples
 
-### Basic crash
+### Example 1: Basic crash
+
 ```cpp
 #include "fakesignal.h"
 
@@ -78,7 +88,8 @@ int main() {
 }
 ```
 
-### Interactive signal selector
+### Example 2: Interactive signal selector
+
 ```cpp
 #include <iostream>
 #include "fakesignal.h"
@@ -91,7 +102,8 @@ int main() {
 }
 ```
 
-### Try to catch the uncatchable
+### Example 3: Try to catch the uncatchable
+
 ```cpp
 #include <csignal>
 #include <iostream>
@@ -110,31 +122,67 @@ int main() {
 }
 ```
 
+### Example 4: Raise all signals (crashes on first)
+
+```cpp
+#include "fakesignal.h"
+
+int main() {
+    fakesignal::raiseAll();  // 💥💥💥
+}
+```
+
+### Example 5: Dry run (no crash, boring but exists)
+
+```cpp
+#include "fakesignal.h"
+
+int main() {
+    fakesignal::dryRun("SIGSEGV");
+    std::cout << "Program continues... (unlike the real version)" << std::endl;
+}
+```
+
 ---
 
-## 🛠 Requirements
+## 📁 Project Structure
 
-- C++17 or later
-- A computer that can segfault (all of them)
-- A sense of humor 🤡
-- No will to live (optional)
-
-### Platform Support
-| Platform | Status |
-|----------|--------|
-| Linux (GCC/Clang) | ✅ Fully supported |
-| Windows (MSVC) | ✅ Supported (with `/unsafe` where needed) |
-| macOS (Clang) | ✅ Supported |
-| Embedded systems | ⚠️ May brick your device (not our fault) |
+```
+fakesignal/
+├── README.md
+├── CONTRIBUTING.md
+├── LICENSE
+├── fakesignal.h          ← Header (declarations)
+├── fakesignal.cpp        ← Implementation (the real crashes)
+└── examples/
+    ├── crash_demo.cpp
+    ├── signal_selector.cpp
+    ├── crash_all.cpp
+    └── dry_run_demo.cpp
+```
 
 ---
 
-## 📥 Installation
+## 🛠 Installation
 
 ### Option 1: Copy-paste (recommended for quick pain)
-Just copy `fakesignal.h` into your project and include it.
 
-### Option 2: CMake (for masochists)
+Just copy `fakesignal.h` and `fakesignal.cpp` into your project and compile them together.
+
+```bash
+g++ -std=c++17 -pthread your_code.cpp fakesignal.cpp -o your_program
+```
+
+### Option 2: Static library
+
+```bash
+g++ -std=c++17 -c fakesignal.cpp -o fakesignal.o
+ar rcs libfakesignal.a fakesignal.o
+g++ -std=c++17 your_code.cpp -L. -lfakesignal -pthread -o your_program
+```
+
+### Option 3: CMake (for masochists)
+
 ```bash
 git clone https://github.com/yourusername/fakesignal.git
 cd fakesignal
@@ -144,8 +192,33 @@ make
 sudo make install  # if you dare
 ```
 
-### Option 3: Package managers (we wish)
-Not yet. But if you want to maintain Homebrew or vcpkg ports for this, please seek professional help first.
+Then in your `CMakeLists.txt`:
+
+```cmake
+find_package(fakesignal REQUIRED)
+target_link_libraries(your_target fakesignal)
+```
+
+---
+
+## 🧪 Building and Running Examples
+
+```bash
+git clone https://github.com/yourusername/fakesignal.git
+cd fakesignal
+
+# Compile an example manually
+g++ -std=c++17 -pthread examples/crash_demo.cpp fakesignal.cpp -o crash_demo
+./crash_demo
+
+# Or use CMake
+mkdir build && cd build
+cmake .. -DFAKESIGNAL_BUILD_EXAMPLES=ON
+make
+./examples/crash_demo
+./examples/signal_selector
+./examples/crash_all
+```
 
 ---
 
@@ -160,6 +233,7 @@ Not yet. But if you want to maintain Homebrew or vcpkg ports for this, please se
 | **May cause data loss** | If you haven't saved your work, now would be a good time. |
 
 ### What happens when you catch SIGSEGV?
+
 ```cpp
 void handler(int) {
     // You are here. But the instruction that faulted?
@@ -251,6 +325,47 @@ This is a library that intentionally crashes your program.
 What kind of support did you expect? 😅
 
 For existential support, contact your local philosopher.
+
+---
+
+## 📋 Requirements
+
+- C++17 or later
+- A computer that can segfault (all of them)
+- A sense of humor 🤡
+- No will to live (optional)
+- `pthread` (for `DEADLOCK` and threading features)
+
+### Platform Support
+
+| Platform | Compiler | Status |
+|----------|----------|--------|
+| Linux | GCC 7+, Clang 5+ | ✅ Fully supported |
+| Windows | MSVC 2017+, MinGW | ✅ Supported |
+| macOS | Apple Clang | ✅ Supported |
+| Embedded | Any C++17 compiler | ⚠️ May brick your device (not our fault) |
+
+---
+
+## 🐛 Known Issues
+
+| Issue | Status | Workaround |
+|-------|--------|-------------|
+| `SIGFPE` may be optimized away | WONTFIX | Use `volatile` or `-O0` |
+| `SIGILL` doesn't work on ARM | WONTFIX | Buy an x86 CPU |
+| Deadlock never returns (obviously) | WONTFIX | That's what deadlock means |
+| People keep opening crash reports | WONTFIX | Read the README |
+
+---
+
+## 🔮 Future Plans
+
+- [ ] Add `SIGDANGLING` (use-after-free)
+- [ ] Add `SIGCORRUPT` (heap buffer overflow)
+- [ ] Add `SIGRACE` (data race with sanitizers)
+- [ ] Write a blog post titled "Why I Wrote a Library That Crashes Your Program"
+- [ ] Get featured on r/programminghorror
+- [ ] Regret everything
 
 ---
 
