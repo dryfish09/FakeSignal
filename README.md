@@ -11,9 +11,10 @@
 
 ## 📦 What is FakeSignal?
 
-**FakeSignal** is a header-only C++ library that provides a `raise()` function for **fake signals**… that **really crash your program** using real undefined behavior.
+**FakeSignal** is a C++ library that provides a `raise()` function for **fake signals**… that **really crash your program** using real undefined behavior.
 
-Yes, you read that right.  
+Yes, you read that right. 
+
 It's a library for developers who want to simulate signals *the hard way* — by actually segfaulting, dividing by zero, overflowing the stack, or leaking memory until the OOM killer shows up.
 
 ### Why?
