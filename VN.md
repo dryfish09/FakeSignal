@@ -185,7 +185,7 @@ g++ -std=c++17 code_cua_ban.cpp -L. -lfakesignal -pthread -o chuong_trinh_cua_ba
 ### Cách 3: CMake (dành cho người thích đau khổ)
 
 ```bash
-git clone https://github.com/tencuaban/fakesignal.git
+git clone https://github.com/dryfish09/fakesignal.git
 cd fakesignal
 mkdir build && cd build
 cmake .. -DFAKESIGNAL_BUILD_EXAMPLES=ON
