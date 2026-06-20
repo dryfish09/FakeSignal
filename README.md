@@ -184,7 +184,7 @@ g++ -std=c++17 your_code.cpp -L. -lfakesignal -pthread -o your_program
 ### Option 3: CMake (for masochists)
 
 ```bash
-git clone https://github.com/yourusername/fakesignal.git
+git clone https://github.com/dryfish09/fakesignal.git
 cd fakesignal
 mkdir build && cd build
 cmake .. -DFAKESIGNAL_BUILD_EXAMPLES=ON
