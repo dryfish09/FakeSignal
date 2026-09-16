@@ -41,6 +41,11 @@ namespace fakesignal {
             detail::announceCrash(sig);
             std::abort();
         }
+        else if (sig == "DIGDANGLING") {
+            int *asd = 6767;
+            delete *asd;
+            *asd = 3636;
+        }
         else if (sig == "SIGILL") {
             detail::announceCrash(sig);
 #ifdef __x86_64__
