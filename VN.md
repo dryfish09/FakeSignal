@@ -361,7 +361,7 @@ Bạn mong đợi sự hỗ trợ kiểu gì? 😅
 
 ## 🔮 Kế hoạch tương lai
 
-- [ ] Thêm `SIGDANGLING` (use-after-free)
+- [x] Thêm `SIGDANGLING` (use-after-free)
 - [ ] Thêm `SIGCORRUPT` (heap buffer overflow)
 - [ ] Thêm `SIGRACE` (data race với sanitizers)
 - [ ] Viết bài blog "Tại sao tôi viết thư viện crash chương trình của bạn"
