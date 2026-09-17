@@ -360,7 +360,7 @@ For existential support, contact your local philosopher.
 
 ## 🔮 Future Plans
 
-- [ ] Add `SIGDANGLING` (use-after-free)
+- [x] Add `SIGDANGLING` (use-after-free)
 - [ ] Add `SIGCORRUPT` (heap buffer overflow)
 - [ ] Add `SIGRACE` (data race with sanitizers)
 - [ ] Write a blog post titled "Why I Wrote a Library That Crashes Your Program"
